@@ -24,18 +24,22 @@
 # not connected
 matrix = [
     [0, 1, 0],
-    [1, 0, 0],
-    [0, 0, 0]
+    [1, 0, 1],
+    [0, 1, 0]
 ]
 
-matrix2 = [ # hourglass 
+matrix2 = [ # square 
     [0, 0, 1, 1],
     [0, 0, 1, 1],
     [1, 1, 0, 0],
     [1, 1, 0, 0]
 ]
 
-def is_connected(matrix):
+matrix3 = [
+    [0, ]
+]
+
+def is_connected(matrix): # DONE 
     n = len(matrix)
     visited = [False] * n
 
@@ -51,7 +55,7 @@ def is_connected(matrix):
 
     return all(visited) # built-in all function checks if all elements in the list are true - in which case the graph is connected
 
-def has_euler_cycle(matrix):
+def has_euler_cycle(matrix): # DONE 
     oddDegreeCount = 0 # if a graph has any odd degree vertices, it does not have an euler cycle
     for row in matrix: # sum up degree of each vertex
         degree = sum(row)
@@ -59,7 +63,7 @@ def has_euler_cycle(matrix):
             oddDegreeCount += 1
     return oddDegreeCount == 0 # if there are no odd degree vertices, the graph has an euler cycle
 
-def has_euler_trail(matrix):
+def has_euler_trail(matrix): # DONE
     oddDegreeCount = 0
     for row in matrix:
         degree = sum(row) # sum up degree of each vertex
@@ -67,7 +71,7 @@ def has_euler_trail(matrix):
             oddDegreeCount += 1
     return oddDegreeCount == 2 # will return true if there are exactly two odd degree vertices
 
-def find_euler_trail(matrix): ## ?
+def find_euler_trail(matrix): # DONE
     n = len(matrix)
     stack = []
     trail = []
@@ -83,9 +87,13 @@ def find_euler_trail(matrix): ## ?
     # Start DFS from a vertex with odd degree
     start_vertex = next(i for i in range(n) if sum(matrix[i]) % 2 != 0)
     dfs(start_vertex)
-
-
-def find_euler_cycle(matrix): # ? 
+    while stack:
+        trail.append(stack.pop())
+        
+    return trail
+    
+        
+def find_euler_cycle(matrix): # DONE 
     n = len(matrix)
     stack = [] # temporary stack to hold vertices during dfs
     cycle = [] # store final euler cycle
@@ -107,7 +115,11 @@ def find_euler_cycle(matrix): # ?
 
 
 print("Connected: ", is_connected(matrix2))
-print("Euler cycle:", has_euler_cycle(matrix2))
+print("Contains euler cycle:", has_euler_cycle(matrix2))
+print("Euler cycle:", find_euler_cycle(matrix2))
+print("contains euler trail:", has_euler_trail(matrix))
+print("euler trail:", find_euler_trail(matrix))
+
 
 ## if graph is connected
 ## if graph has euler cycle, find cycle
